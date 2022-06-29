@@ -27,7 +27,7 @@ class ProductPostRequest extends FormRequest
             'name'          => 'required|string|min:2|max:255',
             'description'   => 'required|string|min:2|max:2048',
             'salary'        => 'required|array|min:1',
-            'salary.*'      => 'array|float',
+            'salary.*'      => 'numeric',
         ];
     }
 }

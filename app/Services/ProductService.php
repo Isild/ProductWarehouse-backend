@@ -45,6 +45,7 @@ class ProductService
     public function create(array $data)
     {
         $product = new ProductModel($data);
+        $product->save();
 
         if(!$product) {
             throw new ModelNotCreatedExcepiton();
