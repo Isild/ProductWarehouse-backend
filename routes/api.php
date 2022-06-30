@@ -18,11 +18,11 @@ use App\Http\Controllers\ProductController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/products', [ProductController::class, 'index'])->name('products.get');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.get.single');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{product}', [ProductController::class, 'show']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::put('/products/{product}', [ProductController::class, 'update']);
-    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+    Route::post('/products', [ProductController::class, 'store'])->name('products.post');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.put');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.delete');
 });

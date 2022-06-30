@@ -7,6 +7,7 @@ use App\Models\ProductModel;
 use App\Exceptions\ModelNotCreatedExcepiton;
 use App\Exceptions\ModelNotDeletedExcepiton;
 use App\Exceptions\ModelNotUpdatedExcepiton;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class ProductService
@@ -18,7 +19,7 @@ class ProductService
         $this->productModel = $productModel;
     }
 
-    public function findAll(array $filters)
+    public function findAll(array $filters): LengthAwarePaginator
     {
         $query = $this->productModel;
 
@@ -42,7 +43,7 @@ class ProductService
         return $query->paginate($filters['limit'] ?? 50);
     }
 
-    public function create(array $data)
+    public function create(array $data): ProductModel
     {
         $product = new ProductModel($data);
         $product->save();
@@ -54,7 +55,7 @@ class ProductService
         return $product;
     }
 
-    public function update(array $data, ProductModel $product)
+    public function update(array $data, ProductModel $product): bool
     {
         isset($data['name']) ? $product->name = $data['name'] : null;
         isset($data['description']) ? $product->description = $data['description'] : null;
@@ -69,7 +70,7 @@ class ProductService
         return $product;
     }
 
-    public function delete(ProductModel $product)
+    public function delete(ProductModel $product): bool
     {
         $product = $product->delete();
 

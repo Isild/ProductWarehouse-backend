@@ -12,7 +12,7 @@ class AuthService
         //
     }
 
-    public function register(array $data)
+    public function register(array $data): string
     {
         $user = User::create([
             'name' => $data['name'],
@@ -25,7 +25,7 @@ class AuthService
         return $token;
     }
 
-    public function login(array $data)
+    public function login(array $data): string
     {
         if(auth()->attempt($data)) {
             $token = auth()->user()->createToken('API Token')->accessToken;

@@ -9,6 +9,7 @@ use App\Http\Requests\Products\ProductShowRequest;
 use App\Http\Requests\Products\ProductDeleteRequest;
 use App\Services\ProductService;
 use App\Models\ProductModel;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -19,14 +20,11 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(ProductIndexRequest $request)
+    public function index(ProductIndexRequest $request): Response
     {
         $products = $this->productService->findAll($request->validated());
 
-        return response([
-            'code' => 200,
-            'data' => $products
-        ], 200);
+        return response($products, 200);
     }
 
     public function show(ProductShowRequest $request, ProductModel $product)
@@ -36,21 +34,21 @@ class ProductController extends Controller
         return response($product, 200);
     }
 
-    public function store(ProductPostRequest $request)
+    public function store(ProductPostRequest $request): Response
     {
         $product = $this->productService->create($request->validated());
 
         return response($product, 201);
     }
 
-    public function update(ProductPutRequest $request, ProductModel $product)
+    public function update(ProductPutRequest $request, ProductModel $product): Response
     {
         $product = $this->productService->update($request->validated(), $product);
 
         return response(null, 204);
     }
 
-    public function destroy(ProductDeleteRequest $request, ProductModel $product)
+    public function destroy(ProductDeleteRequest $request, ProductModel $product): Response
     {
         $this->productService->delete($product);
 

@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\AuthRegisterPostRequest;
 use App\Http\Requests\Auth\AuthLoginPostRequest;
 use App\Services\AuthService;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(AuthRegisterPostRequest $request)
+    public function register(AuthRegisterPostRequest $request): Response
     {
         $respone = $this->authService->register($request->validated());
 
@@ -27,7 +28,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(AuthLoginPostRequest $request)
+    public function login(AuthLoginPostRequest $request): Response
     {
         try {
             $response = $this->authService->login($request->validated());
