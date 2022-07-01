@@ -25,12 +25,16 @@ class AuthService
         return $token;
     }
 
-    public function login(array $data): string
+    public function login(array $data): array
     {
         if(auth()->attempt($data)) {
             $token = auth()->user()->createToken('API Token')->accessToken;
+            $user = auth()->user();
 
-            return $token;
+            return [
+                'api_token' => $token,
+                'user' => $user,
+            ];
         } else {
             throw new AuthenticationException();
         }

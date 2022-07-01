@@ -19,10 +19,10 @@ class AuthController extends Controller
 
     public function register(AuthRegisterPostRequest $request): Response
     {
-        $respone = $this->authService->register($request->validated());
+        $response = $this->authService->register($request->validated());
 
         return response([
-            'api_token' => $respone,
+            'api_token' => $response,
             'code' => 201,
             'message' => 'Created',
         ], 201);
@@ -32,6 +32,7 @@ class AuthController extends Controller
     {
         try {
             $response = $this->authService->login($request->validated());
+
         } catch (AuthenticationException $e) {
             return response([
                 'code' => 401,
@@ -40,7 +41,8 @@ class AuthController extends Controller
         }
 
         return response([
-            'api_token' => $response,
+            'api_token' => $response['api_token'],
+            'user' => $response['user'],
             'code' => 200,
             'message' => 'OK',
         ], 200);
