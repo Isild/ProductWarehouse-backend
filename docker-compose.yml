@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0.27
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 'userPassword'
+    volumes:
+      - ./docker/db:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "33060:3306"
+
+  adminer:
+   image: adminer
+   environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+   restart: always
+   ports:
+     - 8080:8080
+
+  php-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        composer install
+        php artisan migrate --seed
+        chmod -R 777 /tmp
+        php -d memory_limit=2048M /var/www/html/artisan serve --host 0.0.0.0
+
+    restart: on-failure
+    depends_on:
+     - db
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www/html
