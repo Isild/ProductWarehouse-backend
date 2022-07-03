@@ -26,7 +26,7 @@ class ProductIndexRequest extends FormRequest
     {
         return [
             'limit'     => 'integer|min:1|max:50',
-            'sort_by'   => 'string|in:name,created_at,updated_at',
+            'sort_by'   => 'string|in:id,name,created_at,updated_at',
             'search'    => 'string|min:2|max:255',
             'order_by'  => 'string|in:asc,desc',
             'page'      => 'integer|min:1',

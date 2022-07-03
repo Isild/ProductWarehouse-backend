@@ -30,6 +30,7 @@ class AuthService
         if(auth()->attempt($data)) {
             $token = auth()->user()->createToken('API Token')->accessToken;
             $user = auth()->user();
+            $user->api_token = $token;
 
             return [
                 'api_token' => $token,

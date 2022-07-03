@@ -24,20 +24,19 @@ class ProductService
         $query = $this->productModel;
 
         if(isset($filters['name'])){
-            $query->where('name', '=', $filters['name']);
+            $query = $query->where('name', '=', $filters['name']);
         }
         if(isset($filters['created_at'])){
-            $query->where('created_at', 'LIKE', $filters['created_at']);
+            $query = $query->where('created_at', 'LIKE', $filters['created_at']);
         }
 
 
         if(isset($filters['sort_by']) && is_array($filters['sort_by'])){
             foreach($filters['sort_by'] as $sortBy) {
-                $query->orderBy($sortBy ?? 'name', $filters['order_by'] ?? 'asc');
+                $query = $query->orderBy($sortBy ?? 'name', $filters['order_by'] ?? 'ASC');
             }
         } else {
-            $query->orderBy($filters['sort_by'] ?? 'name', $filters['order_by'] ?? 'asc');
-
+            $query = $query->orderBy($filters['sort_by'] ?? 'name', $filters['order_by'] ?? 'ASC');
         }
 
         return $query->paginate($filters['limit'] ?? 50);
