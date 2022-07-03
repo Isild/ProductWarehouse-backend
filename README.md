@@ -12,16 +12,16 @@ First run in terminal below command:
 ```
 docker-compose up --build
 ```
-Next get docker mysql container port, it should be 33060.
+Next get docker mysql container port after the container is builded, it should be 33060.
 
-Now create .env file based on example file and in value `DB_PORT` write port of your container.
+Now create .env file based on example file and in value `DB_PORT` write port of your container. Also add `password` in field `DB_PASSWORD`
 ```
 cp .env.example .env
 ```
 Next run commands 
-```
-php artisan key:generate 
+``` 
 composer install
+php artisan key:generate
 php artisan migrate --seed
 php artisan passport:client --personal
 php artisan serve
